@@ -12,8 +12,6 @@ from api.auth.dto import LoginDTO
 from api.user.user_model import User
 from jose.exceptions import ExpiredSignatureError, JWTError
 
-from api.utils.logger import ilogger
-
 
 login_strategies: dict[LoginStrategies, LoginStrategy] = {
     LoginStrategies.DEFAULT: DefaultLoginStrategy,
@@ -21,9 +19,7 @@ login_strategies: dict[LoginStrategies, LoginStrategy] = {
 }
 
 
-async def login(
-    credentials: LoginDTO, strategy: LoginStrategies
-) -> str:
+async def login(credentials: LoginDTO, strategy: LoginStrategies) -> str:
     token: str = await login_strategies.get(strategy).login(credentials)
     return token
 
@@ -45,21 +41,18 @@ async def authenticate(token: str) -> User:
         payload: dict = jwt.decode_token(token)
     except ExpiredSignatureError:
         raise HTTPException(
-            detail='Token Expirado.', 
-            status_code=status.HTTP_403_FORBIDDEN
+            detail="Token Expirado.", status_code=status.HTTP_401_UNAUTHORIZED
         )
     except JWTError:
         raise HTTPException(
-            detail='Token inválido.', 
-            status_code=status.HTTP_403_FORBIDDEN
+            detail="Token inválido.", status_code=status.HTTP_401_UNAUTHORIZED
         )
-    
+
     user = await User.get(payload.get("sub"))
 
     if user is None:
         raise HTTPException(
-            detail='Usuário não encontrado.', 
-            status_code=status.HTTP_403_FORBIDDEN
+            detail="Usuário não encontrado.", status_code=status.HTTP_401_UNAUTHORIZED
         )
 
     return user

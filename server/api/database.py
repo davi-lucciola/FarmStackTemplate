@@ -1,7 +1,7 @@
-from api.utils.logger import ilogger
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from api.config import settings
+from api.utils.logger import ilogger
 
 
 async def init_db():

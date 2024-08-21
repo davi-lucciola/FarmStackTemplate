@@ -13,9 +13,7 @@ from api.auth.strategies import LoginStrategy
 class GoogleLoginStrategy(LoginStrategy):
     @staticmethod
     async def login(credentials: LoginDTO) -> str:
-        user_info = GoogleLoginStrategy.get_google_user_info(
-            credentials.password
-        )
+        user_info = GoogleLoginStrategy.get_google_user_info(credentials.password)
 
         user = await User.get_by_email(user_info["email"])
 
@@ -23,7 +21,7 @@ class GoogleLoginStrategy(LoginStrategy):
             create_user_dto = CreateUserDTO(
                 name=user_info["name"],
                 email=user_info["email"],
-                password="",
+                password="not_matter",
                 profile_picture_uri=user_info["picture"],
             )
 

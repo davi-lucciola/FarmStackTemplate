@@ -30,15 +30,11 @@ async def login_google():
 @auth_router.get("/google/token")
 async def auth_google(code: str):
     credentials = LoginDTO(email="notmatter@email.com", password=code)
-    token: str = await auth_service.login(
-        credentials, LoginStrategies.GOOGLE
-    )
+    token: str = await auth_service.login(credentials, LoginStrategies.GOOGLE)
     return {"access_token": token, "type": "bearer"}
 
 
 @auth_router.post("/default/token")
 async def auth_default(credentials: LoginDTO):
-    token: str = await auth_service.login(
-        credentials, LoginStrategies.DEFAULT
-    )
+    token: str = await auth_service.login(credentials, LoginStrategies.DEFAULT)
     return {"access_token": token, "type": "bearer"}

@@ -1,2 +1,2 @@
-from .response import BasicResponse
+from .models import BasicResponse
 from .logger import ilogger

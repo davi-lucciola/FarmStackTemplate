@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # Jwt
     ALGORITHM: str = "HS256"
     TOKEN_SECRET: str = env.config("TOKEN_SECRET")
-    EXPIRATION_SECONDS: int = 60 * 60 * 5  # 5 Horas
+    EXPIRATION_SECONDS: int = 60 * 60 * 5  # 5 Hours
 
     # Google OAuth2
     GOOGLE_CLIENT_ID: str = env.config("GOOGLE_CLIENT_ID")
